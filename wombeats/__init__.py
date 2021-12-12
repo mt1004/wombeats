@@ -48,7 +48,7 @@ def index():
     if 'token_info' in session:
         auth_manager = SpotifyClientCredentials()
         sp = spotipy.Spotify(auth_manager=auth_manager)
-        return 'logged in'
+        return redirect("/static/build/index.html")
 
     return 'logged in?'
 
