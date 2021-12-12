@@ -18,3 +18,8 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 2. Run `poetry env info` to see where virtual env is installed locally
 3. Run `poetry run flask run` at wombeats root directory
 
+#### Frontend
+
+1. Install `npm` 
+2. Run `npm start` to run frontend in development mode
+3. Run `npm run build` to generate static files to be used in Flask backend.
