@@ -53,6 +53,13 @@ def index():
     return 'logged in?'
 
 
+@app.route("/search")
+def search():
+    artist = session['artist']
+
+    return artist
+
+
 # authorization-code-flow Step 2.
 # Have your application request refresh and access tokens;
 # Spotify returns access and refresh tokens
