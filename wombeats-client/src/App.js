@@ -53,8 +53,8 @@ class App extends React.Component {
                     track={track}
                     year={year}
                     genre={genre}
-                    from_bpm={fromBpm}
-                    to_bpm={toBpm}
+                    fromBpm={fromBpm}
+                    toBpm={toBpm}
                 />
                 <SearchResultTable />
             </div>
@@ -62,7 +62,18 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+        // Load async data.
+        let searchData = await API.get('/search', {
+          params: {
+            ...this.state,
+            inc: 'artist,album,track,year,genre,fromBpm,toBpm'
+          }
+        });
 
+        // Parse the results for ease of use.
+        searchData = searchData.data.results[0];
+
+        console.log(searchData);
   }
 }
 
