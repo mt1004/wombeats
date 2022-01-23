@@ -8,7 +8,7 @@ class SearchQuery(BaseModel):
     artist: str
     album: Optional[str]
     track: Optional[str]
-    year: Optional[int]
+    year: Optional[str]
     genre: Optional[str]
     from_bpm: Decimal
     to_bpm: Decimal

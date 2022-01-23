@@ -71,7 +71,7 @@ SearchInputForm.propTypes = {
   artist: PropTypes.string,
   album: PropTypes.string,
   track: PropTypes.string,
-  year: PropTypes.string,
+  year: PropTypes.number,
   genre: PropTypes.string,
   fromBpm: PropTypes.number,
   toBpm: PropTypes.number,

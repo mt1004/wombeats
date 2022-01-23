@@ -35,3 +35,6 @@ class SpotifyAPIAccess:
                 )
                 search_results.append(search_result)
         return search_results
+
+    def get_user_playlists(self):
+        return self.client.current_user_playlists()
