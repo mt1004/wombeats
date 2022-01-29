@@ -65,10 +65,7 @@ def search():
     if not is_logged_in():
         return redirect('/')
 
-    auth_manager = SpotifyClientCredentials(
-        client_id=CLI_ID,
-        client_secret=CLI_SEC,
-    )
+    auth_manager = SpotifyClientCredentials()
     sp = spotipy.Spotify(auth_manager=auth_manager)
     api_access = SpotifyAPIAccess.build(client=sp)
     search_query = SearchQuery(
