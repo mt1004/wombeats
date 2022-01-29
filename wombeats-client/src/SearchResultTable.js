@@ -26,7 +26,7 @@ export default function SearchResultTable(props) {
     ]
 
     useEffect(() => {
-    fetch("http://127.0.0.1:5000/search?isLoading=true&artist=" + artist + "&album=" + album + "&track=" + track + "&year=" + year + "&genre=" + genre + "&fromBpm=" + fromBpm  + "&toBpm=" + toBpm)
+    fetch("https://np-song-matcher-bpm.herokuapp.com/search?isLoading=true&artist=" + artist + "&album=" + album + "&track=" + track + "&year=" + year + "&genre=" + genre + "&fromBpm=" + fromBpm  + "&toBpm=" + toBpm)
         .then(resp => resp.json())
         .then(resp => {
         setData(resp)
