@@ -1,13 +1,14 @@
 from decimal import Decimal
 from typing import Optional
-from pydantic import BaseModel
+from datetime import date
+from pydantic import BaseModel, AnyUrl
 
 
 class SearchQuery(BaseModel):
     artist: str
     album: Optional[str]
     track: Optional[str]
-    year: Optional[str]
+    year: Optional[int]
     genre: Optional[str]
     from_bpm: Decimal
     to_bpm: Decimal
@@ -28,7 +29,7 @@ class SearchResult(BaseModel):
     artist: str
     album: str
     track: str
-    release_date: str
-    bpm: str
+    release_date: date
+    bpm: Decimal
     track_uri: str
-    external_url: str
+    external_url: AnyUrl

@@ -25,3 +25,4 @@ class SpotipyTrackItem(BaseModel):
     name: str
     external_urls: ExternalURL
     uri: str
+

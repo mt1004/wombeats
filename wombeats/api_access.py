@@ -28,13 +28,10 @@ class SpotifyAPIAccess:
                     artist=track_item.artists[0].name,
                     album= track_item.album.name,
                     track=track_item.name,
-                    track_uri=str(track_item.uri),
-                    release_date=str(track_item.album.release_date),
-                    bpm=str(int(bpm_decimal)),
-                    external_url=str(track_item.external_urls.spotify)
+                    track_uri=track_item.uri,
+                    release_date=track_item.album.release_date,
+                    bpm=bpm_decimal,
+                    external_url=track_item.external_urls.spotify
                 )
                 search_results.append(search_result)
         return search_results
-
-    def get_user_playlists(self):
-        return self.client.current_user_playlists()
