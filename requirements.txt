@@ -134,3 +134,4 @@ urllib3==1.26.7; python_version >= "2.7" and python_full_version < "3.0.0" or py
 werkzeug==2.0.2; python_version >= "3.6" \
     --hash=sha256:63d3dc1cf60e7b7e35e97fa9861f7397283b75d765afcaefd993d6046899de8f \
     --hash=sha256:aa2bb6fc8dee8d6c504c0ac1e7f5f7dc5810a9903e793b6f715a9f015bdadb9a
+gunicorn==20.1.0;
