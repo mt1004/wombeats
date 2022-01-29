@@ -1,28 +1,38 @@
-from flask import Flask, render_template, redirect, request, session
+from decimal import Decimal
+
+from flask import Flask, render_template, redirect, request, session, jsonify
+from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-import spotipy.util as util
 import time
 import json
 import urllib3
 import os
 
+from wombeats.api_access import SpotifyAPIAccess
+from wombeats.constants import CLI_ID, CLI_SEC, REDIRECT_URI, SCOPE
+from wombeats.models import SearchQuery
+
 app = Flask(__name__)
 
-from spotipy.oauth2 import SpotifyClientCredentials
+
+
 
 app.secret_key = 'super secret key'.encode('utf-8')
-
-API_BASE = 'https://accounts.spotify.com'
-CLI_ID = '09f8a8b99b0d4f1c804753c3c5451f09'
-CLI_SEC = '060ad82b313f4864b748c80f550a5cbc'
-
-# Make sure you add this to Redirect URIs in the setting of the application dashboard
-REDIRECT_URI = "http://127.0.0.1:5000/api_callback"
-
-SCOPE = 'playlist-modify-private,playlist-modify-public,user-top-read'
-
 # Set this to True for testing but you probaly want it set to False in production.
 SHOW_DIALOG = True
+
+
+def is_logged_in():
+    session['token_info'], authorized = get_token(session)
+    return 'token_info' in session
+
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 
 # authorization-code-flow Step 1. Have your application request authorization;
@@ -45,12 +55,35 @@ def login():
 @app.route("/index")
 def index():
     session['token_info'], authorized = get_token(session)
-    if 'token_info' in session:
-        auth_manager = SpotifyClientCredentials()
-        sp = spotipy.Spotify(auth_manager=auth_manager)
+    if is_logged_in():
         return redirect("/static/index.html")
 
-    return 'logged in?'
+    return redirect("/")
+
+
+@app.route("/search")
+def search():
+    if not is_logged_in():
+        return redirect('/')
+
+    auth_manager = SpotifyClientCredentials()
+    sp = spotipy.Spotify(auth_manager=auth_manager)
+    api_access = SpotifyAPIAccess.build(client=sp)
+    search_query = SearchQuery(
+        artist=request.args.get('artist'),
+        album=request.args.get('album'),
+        track=request.args.get('track'),
+        year=request.args.get('year'),
+        genre=request.args.get('genre'),
+        from_bpm=request.args.get('fromBpm') or Decimal(0),
+        to_bpm=request.args.get('toBpm') or Decimal(500),
+    )
+
+    search_results = api_access.search(search_query)
+    sorted_search_results = sorted(search_results, key=lambda row: int(row.bpm))
+    results = json.dumps([result.dict() for result in sorted_search_results])
+    print(results)
+    return results
 
 
 # authorization-code-flow Step 2.
@@ -74,19 +107,19 @@ def api_callback():
 # authorization-code-flow Step 3.
 # Use the access token to access the Spotify Web API;
 # Spotify returns requested data
-@app.route("/go", methods=['POST'])
-def go():
-    session['token_info'], authorized = get_token(session)
-    session.modified = True
-    if not authorized:
-        return redirect('/')
-    data = request.form
-    sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
-    response = sp.current_user_top_tracks(limit=data['num_tracks'], time_range=data['time_range'])
-
-    # print(json.dumps(response))
-
-    return render_template("results.html", data=data)
+# @app.route("/go", methods=['POST'])
+# def go():
+#     session['token_info'], authorized = get_token(session)
+#     session.modified = True
+#     if not authorized:
+#         return redirect('/')
+#     data = request.form
+#     sp = spotipy.Spotify(auth=session.get('token_info').get('access_token'))
+#     response = sp.current_user_top_tracks(limit=data['num_tracks'], time_range=data['time_range'])
+#
+#     # print(json.dumps(response))
+#
+#     return render_template("results.html", data=data)
 
 
 # Checks to see if token is valid and gets a new token if not
