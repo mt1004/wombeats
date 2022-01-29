@@ -23,6 +23,7 @@ SHOW_DIALOG = True
 
 def is_logged_in():
     session['token_info'], authorized = get_token(session)
+    print(session)
     return 'token_info' in session
 
 
