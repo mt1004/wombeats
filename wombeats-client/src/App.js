@@ -56,25 +56,19 @@ class App extends React.Component {
                     fromBpm={fromBpm}
                     toBpm={toBpm}
                 />
-                <SearchResultTable />
+                <SearchResultTable
+                    artist={artist}
+                    album={album}
+                    track={track}
+                    year={year}
+                    genre={genre}
+                    fromBpm={fromBpm}
+                    toBpm={toBpm}
+                />
             </div>
         );
   }
 
-  async componentDidMount() {
-        // Load async data.
-        let searchData = await API.get('/search', {
-          params: {
-            ...this.state,
-            inc: 'artist,album,track,year,genre,fromBpm,toBpm'
-          }
-        });
-
-        // Parse the results for ease of use.
-        searchData = searchData.data.results[0];
-
-        console.log(searchData);
-  }
 }
 
 export default App;

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from flask import Flask, render_template, redirect, request, session, jsonify
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
@@ -65,10 +67,7 @@ def search():
         return redirect('/')
 
     auth_manager = SpotifyClientCredentials()
-    # sp = spotipy.Spotify(auth_manager=auth_manager)
-    token_info, token_valid = get_token(session)
-    print('**TOKEN', token_info)
-    sp = spotipy.Spotify(auth=token_info.get('access_token'))
+    sp = spotipy.Spotify(auth_manager=auth_manager)
     api_access = SpotifyAPIAccess.build(client=sp)
     search_query = SearchQuery(
         artist=request.args.get('artist'),
@@ -76,15 +75,15 @@ def search():
         track=request.args.get('track'),
         year=request.args.get('year'),
         genre=request.args.get('genre'),
-        from_bpm=request.args.get('fromBpm', 0),
-        to_bpm=request.args.get('toBpm', 0),
+        from_bpm=request.args.get('fromBpm') or Decimal(0),
+        to_bpm=request.args.get('toBpm') or Decimal(500),
     )
 
-
     search_results = api_access.search(search_query)
-    playlists = api_access.get_user_playlists()
-    print(playlists)
-    return str([result.json() for result in search_results])
+    sorted_search_results = sorted(search_results, key=lambda row: int(row.bpm))
+    results = json.dumps([result.dict() for result in sorted_search_results])
+    print(results)
+    return results
 
 
 # authorization-code-flow Step 2.
