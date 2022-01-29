@@ -23,7 +23,6 @@ SHOW_DIALOG = True
 
 def is_logged_in():
     session['token_info'], authorized = get_token(session)
-    print(session)
     return 'token_info' in session
 
 
@@ -68,7 +67,8 @@ def search():
 
     auth_manager = SpotifyClientCredentials()
     sp = spotipy.Spotify(auth_manager=auth_manager)
-    api_access = SpotifyAPIAccess.build(client=sp)
+    print('***session', session)
+    api_access = SpotifyAPIAccess.build(client=sp, auth=session['token_info'])
     search_query = SearchQuery(
         artist=request.args.get('artist'),
         album=request.args.get('album'),
