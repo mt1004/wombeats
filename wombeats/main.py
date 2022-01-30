@@ -66,9 +66,9 @@ def search():
         return redirect('/')
 
     auth_manager = SpotifyClientCredentials()
-    sp = spotipy.Spotify(auth_manager=auth_manager)
+    sp = spotipy.Spotify(auth_manager=auth_manager, auth=session['token_info'])
     print('***session', session)
-    api_access = SpotifyAPIAccess.build(client=sp, auth=session['token_info'])
+    api_access = SpotifyAPIAccess.build(client=sp)
     search_query = SearchQuery(
         artist=request.args.get('artist'),
         album=request.args.get('album'),
