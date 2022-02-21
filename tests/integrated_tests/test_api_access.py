@@ -13,8 +13,13 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
     def setUpClass(self):
         client_id = os.environ.get('SPOTIPY_CLIENT_ID')
         client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
-        sp = spotipy.Spotify(auth_manager=spotipy.SpotifyClientCredentials(client_id=client_id,
-                                                                           client_secret=client_secret))
+        redirect_uri = "http://localhost:8888/callback"
+        scope = 'playlist-modify-public,playlist-read-private'
+        sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(client_id=client_id,
+                                                                client_secret=client_secret,
+                                                                redirect_uri=redirect_uri,
+                                                                scope=scope,
+                                                                show_dialog=False))
         self.spotify = sp
 
     def test_api_access_search_by_artist(self):
@@ -27,8 +32,8 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
         search_results = api_access.search(sq)
         assert len(search_results) >= 0
         for sr in search_results:
-            assert sr.bpm.compare(90) >= 0
-            assert sr.bpm.compare(101) == -1
+            assert sr.bpm_decimal.compare(90) >= 0
+            assert sr.bpm_decimal.compare(101) == -1
         assert search_results[0].artist == "Twenty One Pilots"
 
     def test_api_access_search_by_artist_and_year(self):
@@ -40,10 +45,9 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
             to_bpm=Decimal(100)
         )
         search_results = api_access.search(sq)
-        print(search_results)
-        assert search_results[0].bpm.compare(90) >= 0
-        assert search_results[0].bpm.compare(101) == -1
-        assert search_results[0].release_date.year == 2015
+        assert search_results[0].bpm_decimal.compare(90) >= 0
+        assert search_results[0].bpm_decimal.compare(101) == -1
+        assert search_results[0].release_date_year == 2015
 
     def test_api_access_search_by_artist_and_album(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
@@ -55,7 +59,17 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
             to_bpm=Decimal(100)
         )
         search_results = api_access.search(sq)
-        assert search_results[0].bpm.compare(90) >= 0
-        assert search_results[0].bpm.compare(101) == -1
+        assert search_results[0].bpm_decimal.compare(90) >= 0
+        assert search_results[0].bpm_decimal.compare(101) == -1
         assert search_results[0].album == "Blurryface"
+
+    def test_api_access_get_current_playlists(self):
+        api_access = SpotifyAPIAccess.build(client=self.spotify)
+        playlists = api_access.get_current_playlists()
+        print(playlists)
+
+    def test_api_access_read_tracks_from_playlist(self):
+        api_access = SpotifyAPIAccess.build(client=self.spotify)
+        tracks = api_access.get_tracks_from_playlist("7jd5fwnsmhrzDw7HsVg0RD")
+        print(tracks)
 
