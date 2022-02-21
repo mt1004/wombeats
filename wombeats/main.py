@@ -53,6 +53,7 @@ def api_callback():
 
     # Token = User code + sp_oauth (Developer token)
     sp_oauth = wombeats_session.sp_oauth
+    print("*****code", code)
     token_info = sp_oauth.get_access_token(code)
 
     # Saving the access token into the user's cookies along with all other token related info
