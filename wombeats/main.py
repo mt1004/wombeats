@@ -83,4 +83,5 @@ def search():
     sorted_search_results = sorted(search_results, key=lambda row: int(row.bpm))
     results = json.dumps([result.dict() for result in sorted_search_results])
     print(results)
+    results = []
     return results
