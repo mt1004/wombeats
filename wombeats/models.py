@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class SearchQuery(BaseModel):
-    artist: str
+    artist: Optional[str]
     album: Optional[str]
     track: Optional[str]
     year: Optional[str]
@@ -14,7 +14,9 @@ class SearchQuery(BaseModel):
 
     @property
     def query_str(self):
-        query_list = [f"artist:{self.artist}"]
+        query_list = []
+        if self.artist:
+            query_list.append(f"artist:{self.artist}")
         if self.album:
             query_list.append(f"album:{self.album}")
         if self.track:
