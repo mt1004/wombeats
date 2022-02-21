@@ -92,3 +92,4 @@ def search():
     results = json.dumps([result.dict() for result in sorted_search_results])
     print(results)
     return results
+
