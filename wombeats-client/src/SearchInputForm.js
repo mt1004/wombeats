@@ -61,7 +61,7 @@ export function SearchInputForm(props) {
                       defaultValue={toBpm}
                     />
                     <Button type="submit" variant="contained">Search</Button>
-                    <Button type="reset" variant="contained">Reset</Button>
+                    <Button href="/" variant="contained">Reset</Button>
                 </form>
             </Box>
         </div>
