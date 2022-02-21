@@ -100,6 +100,7 @@ def api_callback():
 
     # Saving the access token along with all other token related info
     session["token_info"] = token_info
+    print('Session, token info is: ', session, session['token_info'])
 
     return redirect("index")
 
