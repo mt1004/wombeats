@@ -26,18 +26,25 @@ class WombeatsSession:
 
     def _is_token_expired(self):
         now = int(time.time())
-        is_token_expired = self.session.get('token_info').get('expires_at') - now < 60
+        token_info = self.session.get('token_info')
+        is_token_expired = False
+        if token_info:
+            is_token_expired = token_info.get('expires_at') - now < 60
 
         return is_token_expired
 
     def _refresh_token(self):
-        token_info = self.sp_oauth.refresh_access_token(self.session.get('token_info').get('refresh_token'))
+        original_token_info = self.session.get('token_info')
+        if not original_token_info:
+            return
+
+        token_info = self.sp_oauth.refresh_access_token(original_token_info.get('refresh_token'))
         self.session['token_info'] = token_info
 
     def get_token(self):
-        if self._is_token_expired():
-            self._refresh_token()
-
         token_info = self.session.get("token_info", None)
+
+        if token_info and self._is_token_expired():
+            self._refresh_token()
 
         return token_info
