@@ -52,8 +52,7 @@ class WombeatsSession:
         return token_info
 
     def get_api_access(self) -> SpotifyAPIAccess:
-        auth_manager = SpotifyClientCredentials()
-        sp = spotipy.Spotify(auth_manager=auth_manager)
+        sp = spotipy.Spotify(auth=self.get_token().get('access_token'))
         print("*******USER ", sp.current_user())
         api_access = SpotifyAPIAccess.build(client=sp)
 
