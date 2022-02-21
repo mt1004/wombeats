@@ -7,7 +7,7 @@ from wombeats.api_access import SpotifyAPIAccess
 from wombeats.constants import CLI_ID, CLI_SEC, REDIRECT_URI, SCOPE
 
 
-class WombeatsSession:
+class WombeatsSpotipySession:
     def __init__(self, session: session):
         self.session = session
 
@@ -20,9 +20,9 @@ class WombeatsSession:
         )
 
     def is_logged_in(self):
-        return bool(self.get_token())
+        return bool(self._get_token())
 
-    def set_token_info(self, code):
+    def login(self, code):
         token_info = self.sp_oauth.get_access_token(code)
         self.session["token_info"] = token_info
 
@@ -31,6 +31,16 @@ class WombeatsSession:
         auth_url = sp_oauth.get_authorize_url()
 
         return auth_url
+
+    def get_api_access(self) -> SpotifyAPIAccess:
+        token = self._get_token()
+        if not token:
+            return None
+
+        sp = spotipy.Spotify(auth=token.get('access_token'))
+        api_access = SpotifyAPIAccess.build(client=sp)
+
+        return api_access
 
     def _is_token_expired(self):
         now = int(time.time())
@@ -49,20 +59,10 @@ class WombeatsSession:
         token_info = self.sp_oauth.refresh_access_token(original_token_info.get('refresh_token'))
         self.session['token_info'] = token_info
 
-    def get_token(self):
+    def _get_token(self):
         token_info = self.session.get("token_info", None)
 
         if token_info and self._is_token_expired():
             self._refresh_token()
 
         return token_info
-
-    def get_api_access(self) -> SpotifyAPIAccess:
-        token = self.get_token()
-        if not token:
-            return None
-
-        sp = spotipy.Spotify(auth=token.get('access_token'))
-        api_access = SpotifyAPIAccess.build(client=sp)
-
-        return api_access
