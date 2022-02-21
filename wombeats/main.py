@@ -6,7 +6,6 @@ from flask import Flask, redirect, request, session
 from spotipy.oauth2 import SpotifyClientCredentials
 
 from wombeats.api_access import SpotifyAPIAccess
-from wombeats.constants import CLI_ID, CLI_SEC, REDIRECT_URI, SCOPE
 from wombeats.models import SearchQuery
 from wombeats.session import WombeatsSession
 
@@ -32,12 +31,7 @@ def login():
     # Checks spotify to see if the user is logged in
     # After successful login verification from spotify,
     # User is redirected to /api_callback (REDIRECT_URI)
-    sp_oauth = spotipy.oauth2.SpotifyOAuth(
-        client_id=CLI_ID,
-        client_secret=CLI_SEC,
-        redirect_uri=REDIRECT_URI,
-        scope=SCOPE
-    )
+    sp_oauth = wombeats_session.get_sp_oauth()
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
@@ -57,18 +51,11 @@ def index():
 @app.route("/api_callback")
 def api_callback():
     # Spotify calls this API endpoint after successful login validation
-    # Create auth object with developer API keys
-    sp_oauth = spotipy.oauth2.SpotifyOAuth(
-        client_id=CLI_ID,
-        client_secret=CLI_SEC,
-        redirect_uri=REDIRECT_URI,
-        scope=SCOPE
-    )
-
     # This arg comes from spotify
     code = request.args.get('code')
 
     # Token = User code + sp_oauth (Developer token)
+    sp_oauth = wombeats_session.get_sp_oauth()
     token_info = sp_oauth.get_access_token(code)
 
     # Saving the access token into the user's cookies along with all other token related info
