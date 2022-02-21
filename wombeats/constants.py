@@ -4,3 +4,4 @@ CLI_SEC = '060ad82b313f4864b748c80f550a5cbc'
 REDIRECT_URI = "http://127.0.0.1:5000/api_callback"
 SCOPE = 'playlist-modify-private,playlist-modify-public,user-top-read'
 SHOW_DIALOG = True
+GIT_HUB_TEST = "TEST"
