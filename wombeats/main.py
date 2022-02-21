@@ -65,7 +65,6 @@ def api_callback():
 
 @app.route("/search")
 def search():
-    print("*******searching")
     if not wombeats_session.is_logged_in():
         return redirect('/')
 
