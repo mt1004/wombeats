@@ -11,7 +11,7 @@ class WombeatsSession:
         self.session = session
 
     def is_logged_in(self):
-        session['token_info'], authorized = self.get_token()
+        session['token_info'] = self.get_token()
         return 'token_info' in session
 
     def set_token_info(self, token_info):
@@ -22,8 +22,7 @@ class WombeatsSession:
 
         # Checking if the session already has a token stored
         if not (self.session.get('token_info', False)):
-            token_valid = False
-            return token_info, token_valid
+            return token_info
 
         # Checking if token has expired
         now = int(time.time())
