@@ -60,9 +60,9 @@ class WombeatsSpotipySession:
         self.session['token_info'] = token_info
 
     def _get_token(self):
-        token_info = self.session.get("token_info", None)
-
-        if token_info and self._is_token_expired():
+        if self._is_token_expired():
             self._refresh_token()
+
+        token_info = self.session.get("token_info", None)
 
         return token_info
