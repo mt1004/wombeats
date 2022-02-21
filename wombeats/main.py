@@ -61,8 +61,6 @@ def api_callback():
     # Saving the access token into the user's cookies along with all other token related info
     wombeats_session.set_token_info(token_info)
 
-    print('Session, auth_token, token info is: ', session, session['token_info'])
-
     return redirect("index")
 
 
@@ -92,4 +90,3 @@ def search():
     results = json.dumps([result.dict() for result in sorted_search_results])
     print(results)
     return results
-
