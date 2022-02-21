@@ -1,20 +1,16 @@
+import json
+import time
 from decimal import Decimal
 
-from flask import Flask, render_template, redirect, request, session, jsonify
-from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-import time
-import json
-
+from flask import Flask, redirect, request, session
+from spotipy.oauth2 import SpotifyClientCredentials
 
 from wombeats.api_access import SpotifyAPIAccess
 from wombeats.constants import CLI_ID, CLI_SEC, REDIRECT_URI, SCOPE
 from wombeats.models import SearchQuery
 
 app = Flask(__name__)
-
-
-
 
 app.secret_key = 'super secret key'.encode('utf-8')
 # Set this to True for testing but you probaly want it set to False in production.
@@ -94,13 +90,15 @@ def api_callback():
     # Don't reuse a SpotifyOAuth object because they store token info and you could leak user tokens if you reuse a SpotifyOAuth object
     sp_oauth = spotipy.oauth2.SpotifyOAuth(client_id=CLI_ID, client_secret=CLI_SEC, redirect_uri=REDIRECT_URI,
                                            scope=SCOPE)
+    auth_manager = SpotifyClientCredentials()
+    auth_token = auth_manager.get_access_token()
     session.clear()
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
 
     # Saving the access token along with all other token related info
     session["token_info"] = token_info
-    print('Session, token info is: ', session, session['token_info'])
+    print('Session, auth_token, token info is: ', session, auth_token, session['token_info'])
 
     return redirect("index")
 
