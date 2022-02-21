@@ -45,6 +45,11 @@ def index():
     # If we can't verify the user is logged in the session, redirect back to '/' flow
     return redirect("/")
 
+@app.route("/logout")
+def logout():
+    wombeats_session.clear()
+    return redirect("/")
+
 
 # 3rd party endpoints (Spotify)
 
