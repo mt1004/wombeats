@@ -2,7 +2,9 @@ import time
 
 import spotipy
 from flask import session
+from spotipy.oauth2 import SpotifyClientCredentials
 
+from wombeats.api_access import SpotifyAPIAccess
 from wombeats.constants import CLI_ID, CLI_SEC, REDIRECT_URI, SCOPE
 
 
@@ -48,3 +50,11 @@ class WombeatsSession:
             self._refresh_token()
 
         return token_info
+
+    def get_api_access(self) -> SpotifyAPIAccess:
+        auth_manager = SpotifyClientCredentials()
+        sp = spotipy.Spotify(auth_manager=auth_manager)
+        print("user", sp.user())
+        api_access = SpotifyAPIAccess.build(client=sp)
+
+        return api_access

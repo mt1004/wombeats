@@ -1,11 +1,8 @@
 import json
 from decimal import Decimal
 
-import spotipy
 from flask import Flask, redirect, request, session
-from spotipy.oauth2 import SpotifyClientCredentials
 
-from wombeats.api_access import SpotifyAPIAccess
 from wombeats.models import SearchQuery
 from wombeats.session import WombeatsSession
 
@@ -71,10 +68,7 @@ def search():
     if not wombeats_session.is_logged_in():
         return redirect('/')
 
-    auth_manager = SpotifyClientCredentials()
-    sp = spotipy.Spotify(auth_manager=auth_manager)
-
-    api_access = SpotifyAPIAccess.build(client=sp)
+    api_access = wombeats_session.get_api_access()
     search_query = SearchQuery(
         artist=request.args.get('artist'),
         album=request.args.get('album'),
