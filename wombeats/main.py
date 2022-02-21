@@ -31,7 +31,7 @@ def login():
     # Checks spotify to see if the user is logged in
     # After successful login verification from spotify,
     # User is redirected to /api_callback (REDIRECT_URI)
-    sp_oauth = wombeats_session.get_sp_oauth()
+    sp_oauth = wombeats_session.sp_oauth
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
@@ -45,11 +45,6 @@ def index():
     # If we can't verify the user is logged in the session, redirect back to '/' flow
     return redirect("/")
 
-@app.route("/logout")
-def logout():
-    wombeats_session.clear()
-    return redirect("/")
-
 
 # 3rd party endpoints (Spotify)
 
@@ -60,7 +55,7 @@ def api_callback():
     code = request.args.get('code')
 
     # Token = User code + sp_oauth (Developer token)
-    sp_oauth = wombeats_session.get_sp_oauth()
+    sp_oauth = wombeats_session.sp_oauth
     token_info = sp_oauth.get_access_token(code)
 
     # Saving the access token into the user's cookies along with all other token related info
