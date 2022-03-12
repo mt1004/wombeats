@@ -25,3 +25,13 @@ class SpotipyTrackItem(BaseModel):
     name: str
     external_urls: ExternalURL
     uri: str
+
+
+class SpotipyPlaylistTrack(BaseModel):
+    total: int
+
+
+class SpotipyPlaylist(BaseModel):
+    name: str
+    id: str
+    tracks: SpotipyPlaylistTrack

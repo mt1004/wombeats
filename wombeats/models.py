@@ -34,3 +34,11 @@ class SearchResult(BaseModel):
     bpm: str
     track_uri: str
     external_url: str
+
+    @property
+    def bpm_decimal(self) -> Decimal:
+        return Decimal(self.bpm)
+
+    @property
+    def release_date_year(self) -> int:
+        return int(self.release_date[0:4])
