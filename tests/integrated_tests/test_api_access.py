@@ -70,6 +70,15 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
 
     def test_api_access_read_tracks_from_playlist(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
-        tracks = api_access.get_tracks_from_playlist("7jd5fwnsmhrzDw7HsVg0RD")
+        tracks = api_access._get_tracks_from_playlist("7jd5fwnsmhrzDw7HsVg0RD")
         print(tracks)
 
+    def test_api_access_filter_playlist(self):
+        api_access = SpotifyAPIAccess.build(client=self.spotify)
+        sq = SearchQuery(
+            from_bpm=Decimal(70),
+            to_bpm=Decimal(100)
+        )
+        search_results = api_access.filter_playlist_tracks("7jd5fwnsmhrzDw7HsVg0RD", query=sq)
+        print(search_results)
+        assert search_results[0].bpm_decimal.compare(70) >= 0
