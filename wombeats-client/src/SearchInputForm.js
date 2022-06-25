@@ -49,7 +49,7 @@ export function SearchInputForm(props) {
                       defaultValue={album}
                       variant="standard"
                       style={{
-                          boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
+                          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
                           backgroundColor: "white",
                       }}
                     />
