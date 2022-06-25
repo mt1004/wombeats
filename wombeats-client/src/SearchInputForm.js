@@ -32,7 +32,7 @@ export function SearchInputForm(props) {
                 <form>
                     <TextField
                       id="standard-basic"
-                      label="Artist"
+                      label="&nbsp;&nbsp;Artist"
                       name="artist"
                       defaultValue={artist}
                       variant="standard"
@@ -44,7 +44,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="standard-basic"
-                      label="Album"
+                      label="&nbsp;&nbsp;Album"
                       name="album"
                       defaultValue={album}
                       variant="standard"
@@ -56,7 +56,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="outlined-name"
-                      label="Track"
+                      label="&nbsp;&nbsp;Track"
                       name="track"
                       defaultValue={track}
                       variant="standard"
@@ -68,7 +68,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="outlined-name"
-                      label="Year"
+                      label="&nbsp;&nbsp;Year"
                       name="year"
                       defaultValue={year}
                       variant="standard"
@@ -80,7 +80,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="outlined-name"
-                      label="Genre"
+                      label="&nbsp;&nbsp;Genre"
                       name="genre"
                       defaultValue={genre}
                       variant="standard"
@@ -89,10 +89,10 @@ export function SearchInputForm(props) {
                           backgroundColor: "white",
                       }}
                     />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <br/><br/>
                     <TextField
                       id="outlined-name"
-                      label="From BPM"
+                      label="&nbsp;&nbsp;From BPM"
                       name="fromBpm"
                       defaultValue={fromBpm}
                       variant="standard"
@@ -104,7 +104,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="outlined-name"
-                      label="To BPM"
+                      label="&nbsp;&nbsp;To BPM"
                       name="toBpm"
                       defaultValue={toBpm}
                       variant="standard"
