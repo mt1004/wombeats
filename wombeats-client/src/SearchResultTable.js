@@ -26,13 +26,13 @@ export default function SearchResultTable(props) {
 
     ]
 
-//    useEffect(() => {
-//    fetch("https://np-song-matcher-bpm.herokuapp.com/search?isLoading=true&artist=" + artist + "&album=" + album + "&track=" + track + "&year=" + year + "&genre=" + genre + "&fromBpm=" + fromBpm  + "&toBpm=" + toBpm + "&newMusicFriday=" + newMusicFriday)
-//        .then(resp => resp.json())
-//        .then(resp => {
-//        setData(resp)
-//        })
-//    }, [])
+    useEffect(() => {
+    fetch("https://np-song-matcher-bpm.herokuapp.com/search?isLoading=true&artist=" + artist + "&album=" + album + "&track=" + track + "&year=" + year + "&genre=" + genre + "&fromBpm=" + fromBpm  + "&toBpm=" + toBpm + "&newMusicFriday=" + newMusicFriday)
+        .then(resp => resp.json())
+        .then(resp => {
+        setData(resp)
+        })
+    }, [])
     return (
         <MaterialTable
             title="Song Data"
