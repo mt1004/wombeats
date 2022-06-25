@@ -34,7 +34,7 @@ class SpotifyAPIAccess:
         for track_item in track_items:
             features = self.client.audio_features(track_item.uri)
             bpm_decimal = Decimal(features[0]["tempo"])
-            if query.from_bpm<= bpm_decimal <= query.to_bpm:
+            if query.from_bpm <= bpm_decimal <= query.to_bpm:
                 search_result = SearchResult(
                     artist=track_item.artists[0].name,
                     album= track_item.album.name,
@@ -56,7 +56,7 @@ class SpotifyAPIAccess:
             spotipy_playlists.append(spotipy_playlist)
         return spotipy_playlists
 
-    def get_tracks_from_playlist(self, playlist_id:str):
+    def _get_tracks_from_playlist(self, playlist_id:str) -> List[SpotipyTrackItem] :
         results = self.client.playlist(playlist_id, fields="tracks,next")
         list_of_tracks: List[SpotipyTrackItem] = []
         results_tracks = results["tracks"]
@@ -67,3 +67,12 @@ class SpotifyAPIAccess:
             list_of_tracks.append(track_item)
         print(len(list_of_tracks))
         return list_of_tracks
+
+    def filter_playlist_tracks(self, playlist_id:str, query: SearchQuery) -> List[SearchResult]:
+        playlist_tracks = self._get_tracks_from_playlist(playlist_id)
+        return self.filter_track_items_by_bpm(playlist_tracks, query=query)
+
+    def filter_new_music_friday_playlist(self, query: SearchQuery) -> List[SearchResult]:
+        playlist_tracks = self._get_tracks_from_playlist("6ev6yxufHeDvitWMugIwXy")
+        return self.filter_track_items_by_bpm(playlist_tracks, query=query)
+
