@@ -66,7 +66,10 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
     def test_api_access_get_current_playlists(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
         playlists = api_access.get_current_playlists()
-        print(playlists)
+        for p in playlists:
+            if "Friday" in p.name:
+                print(p)
+
 
     def test_api_access_read_tracks_from_playlist(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
@@ -80,5 +83,15 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
             to_bpm=Decimal(100)
         )
         search_results = api_access.filter_playlist_tracks("7jd5fwnsmhrzDw7HsVg0RD", query=sq)
+        print(search_results)
+        assert search_results[0].bpm_decimal.compare(70) >= 0
+
+    def test_api_access_filter_new_music_friday_playlist(self):
+        api_access = SpotifyAPIAccess.build(client=self.spotify)
+        sq = SearchQuery(
+            from_bpm=Decimal(70),
+            to_bpm=Decimal(100)
+        )
+        search_results = api_access.filter_new_music_friday_playlist(query=sq)
         print(search_results)
         assert search_results[0].bpm_decimal.compare(70) >= 0

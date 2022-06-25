@@ -48,7 +48,7 @@ class SpotifyAPIAccess:
         return search_results
 
     def get_current_playlists(self) -> List[SpotipyPlaylist]:
-        playlists = self.client.current_user_playlists()
+        playlists = self.client.current_user_playlists(offset=99)
         all_playlists = playlists["items"]
         spotipy_playlists: List[SpotipyPlaylist] = []
         for item in all_playlists:
@@ -71,3 +71,8 @@ class SpotifyAPIAccess:
     def filter_playlist_tracks(self, playlist_id:str, query: SearchQuery) -> List[SearchResult]:
         playlist_tracks = self._get_tracks_from_playlist(playlist_id)
         return self.filter_track_items_by_bpm(playlist_tracks, query=query)
+
+    def filter_new_music_friday_playlist(self, query: SearchQuery) -> List[SearchResult]:
+        playlist_tracks = self._get_tracks_from_playlist("6ev6yxufHeDvitWMugIwXy")
+        return self.filter_track_items_by_bpm(playlist_tracks, query=query)
+
