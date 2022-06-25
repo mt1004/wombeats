@@ -37,6 +37,12 @@ export default function SearchResultTable(props) {
             title="Song Data"
             data={data}
             columns={columns}
+            options={{
+                paging:true,
+                pageSize:20,       // make initial page size
+                emptyRowsWhenPaging: false,   // To avoid of having empty rows
+                pageSizeOptions:[20, 50, 100],    // rows selection options
+            }}
         />
     );
 }
