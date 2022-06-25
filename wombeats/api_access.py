@@ -48,7 +48,7 @@ class SpotifyAPIAccess:
         return search_results
 
     def get_current_playlists(self) -> List[SpotipyPlaylist]:
-        playlists = self.client.current_user_playlists(offset=99)
+        playlists = self.client.current_user_playlists()
         all_playlists = playlists["items"]
         spotipy_playlists: List[SpotipyPlaylist] = []
         for item in all_playlists:

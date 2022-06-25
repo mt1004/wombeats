@@ -66,9 +66,7 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
     def test_api_access_get_current_playlists(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
         playlists = api_access.get_current_playlists()
-        for p in playlists:
-            if "Friday" in p.name:
-                print(p)
+        assert playlists
 
 
     def test_api_access_read_tracks_from_playlist(self):
