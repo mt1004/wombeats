@@ -11,7 +11,7 @@ export default function SearchResultTable(props) {
         { title: "Artist", field: "artist" },
         { title: "Album", field: "album" },
         { title: "Track", field: "track" },
-        { title: "BPM", field: "bpm", sortComparator: (a, b) => a.bpm - b.bpm },
+        { title: "BPM", field: "bpm" },
         {
             title: "Spotify",
             field: "track_uri",
