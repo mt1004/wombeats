@@ -4,6 +4,7 @@ from typing import List
 from spotipy import Spotify
 
 from wombeats.api_models import SpotipyTrackItem, SpotipyPlaylist
+from wombeats.constants import NEW_MUSIC_FRIDAY_PLAYLIST_ID
 from wombeats.models import SearchQuery, SearchResult
 
 
@@ -72,7 +73,11 @@ class SpotifyAPIAccess:
         playlist_tracks = self._get_tracks_from_playlist(playlist_id)
         return self.filter_track_items_by_bpm(playlist_tracks, query=query)
 
-    def filter_new_music_friday_playlist(self, query: SearchQuery) -> List[SearchResult]:
-        playlist_tracks = self._get_tracks_from_playlist("6ev6yxufHeDvitWMugIwXy")
+    def filter_some_playlist(self, query: SearchQuery) -> List[SearchResult]:
+        if query.genre:
+            playlist_id = query.genre
+        else:
+            playlist_id= NEW_MUSIC_FRIDAY_PLAYLIST_ID
+        playlist_tracks = self._get_tracks_from_playlist(playlist_id)
         return self.filter_track_items_by_bpm(playlist_tracks, query=query)
 

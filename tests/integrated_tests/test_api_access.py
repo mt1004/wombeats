@@ -90,6 +90,17 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
             from_bpm=Decimal(70),
             to_bpm=Decimal(100)
         )
-        search_results = api_access.filter_new_music_friday_playlist(query=sq)
+        search_results = api_access.filter_some_playlist(query=sq)
+        print(search_results)
+        assert search_results[0].bpm_decimal.compare(70) >= 0
+
+    def test_api_access_filter_playlist_with_genre(self):
+        api_access = SpotifyAPIAccess.build(client=self.spotify)
+        sq = SearchQuery(
+            from_bpm=Decimal(70),
+            to_bpm=Decimal(100),
+            genre="7jd5fwnsmhrzDw7HsVg0RD"
+        )
+        search_results = api_access.filter_some_playlist(query=sq)
         print(search_results)
         assert search_results[0].bpm_decimal.compare(70) >= 0

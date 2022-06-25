@@ -5,3 +5,4 @@ CLI_SEC = '060ad82b313f4864b748c80f550a5cbc'
 REDIRECT_URI = "https://np-song-matcher-bpm.herokuapp.com/api_callback"
 SCOPE = 'playlist-modify-private,playlist-modify-public,user-top-read,user-read-private'
 SHOW_DIALOG = True
+NEW_MUSIC_FRIDAY_PLAYLIST_ID="6ev6yxufHeDvitWMugIwXy"
