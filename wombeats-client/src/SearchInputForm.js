@@ -1,11 +1,11 @@
 import React, { useReducer } from "react";
-import { Button, Icon, TextField, Paper, Typography, Box } from "@mui/material/";
+import { Button, Icon, TextField, Paper, Typography, Box, Checkbox, FormControlLabel } from "@mui/material/";
 import PropTypes from "prop-types";
 import API from "./utils/API";
 
 export function SearchInputForm(props) {
 
-    const { artist, album, track, year, genre, fromBpm, toBpm } = props;
+    const { artist, album, track, year, genre, fromBpm, toBpm, newMusicFriday } = props;
 
     return (
         <div>
@@ -60,6 +60,7 @@ export function SearchInputForm(props) {
                       name="toBpm"
                       defaultValue={toBpm}
                     />
+                    <FormControlLabel control={<Checkbox defaultChecked={newMusicFriday} />} label="Search New Music Friday" name="newMusicFriday"/>
                     <Button type="submit" variant="contained">Search</Button>
                     <Button href="/" variant="contained">Reset</Button>
                 </form>
@@ -76,6 +77,7 @@ SearchInputForm.propTypes = {
   genre: PropTypes.string,
   fromBpm: PropTypes.number,
   toBpm: PropTypes.number,
+  newMusicFriday: PropTypes.string,
 };
 
 export default SearchInputForm;

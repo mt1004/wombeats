@@ -21,6 +21,7 @@ class App extends React.Component {
     let year = params.get('year');
     let fromBpm = params.get('fromBpm');
     let toBpm = params.get('toBpm');
+    let newMusicFriday = params.get('newMusicFriday');
 
     this.state = {
       isLoading: true,
@@ -32,6 +33,7 @@ class App extends React.Component {
       genre: genre,
       fromBpm: fromBpm,
       toBpm: toBpm,
+      newMusicFriday: newMusicFriday,
 
       results: [],
     };
@@ -43,7 +45,7 @@ class App extends React.Component {
   }
 
   render() {
-        const { artist, album, track, year, genre, fromBpm, toBpm } = this.state;
+        const { artist, album, track, year, genre, fromBpm, toBpm, newMusicFriday } = this.state;
 
         return (
             <div>
@@ -55,6 +57,7 @@ class App extends React.Component {
                     genre={genre}
                     fromBpm={fromBpm}
                     toBpm={toBpm}
+                    newMusicFriday={newMusicFriday}
                 />
                 <SearchResultTable
                     artist={artist}
@@ -64,6 +67,7 @@ class App extends React.Component {
                     genre={genre}
                     fromBpm={fromBpm}
                     toBpm={toBpm}
+                    newMusicFriday={newMusicFriday}
                 />
             </div>
         );
