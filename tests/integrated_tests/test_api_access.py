@@ -15,7 +15,6 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
         client_id = os.environ.get('SPOTIPY_CLIENT_ID')
         client_secret = os.environ.get('SPOTIPY_CLIENT_SECRET')
         redirect_uri = "http://localhost:8888/callback"
-        # scope = 'playlist-modify-public,playlist-read-private'
         scope = SCOPE
         sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(client_id=client_id,
                                                                 client_secret=client_secret,
