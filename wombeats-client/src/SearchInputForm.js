@@ -80,7 +80,7 @@ export function SearchInputForm(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       id="outlined-name"
-                      label="&nbsp;&nbsp;Playlist"
+                      label="&nbsp;&nbsp;Genre"
                       name="genre"
                       defaultValue={genre}
                       variant="standard"
