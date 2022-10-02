@@ -40,9 +40,9 @@ export default function SearchResultTable(props) {
             columns={columns}
             options={{
                 paging:true,
-                pageSize:20,       // make initial page size
+                pageSize:50,       // make initial page size
                 emptyRowsWhenPaging: false,   // To avoid of having empty rows
-                pageSizeOptions:[20, 50, 100],    // rows selection options
+                pageSizeOptions:[20, 50, 100, 200],    // rows selection options
             }}
         />
     );
