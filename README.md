@@ -23,3 +23,8 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 1. Install `npm` 
 2. Run `npm start` to run frontend in development mode
 3. Run `npm run build` to generate static files to be used in Flask backend.
+
+
+#### Docker
+
+1. Run `docker build -t <image-name> .` to create a docker image (might require `sudo` access).
