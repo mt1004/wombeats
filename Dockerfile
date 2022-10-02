@@ -8,7 +8,7 @@ WORKDIR /app/wombeats-client
 RUN npm install
 RUN npx browserslist@latest --update-db
 RUN npm run build
-RUN mkdir /app/static
+RUN mkdir /static
 RUN mv build/* /static/
 WORKDIR /app
 RUN chmod +x /app/*
