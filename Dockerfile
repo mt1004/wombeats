@@ -8,7 +8,8 @@ WORKDIR /app/wombeats-client
 RUN npm install
 RUN npx browserslist@latest --update-db
 RUN npm run build
-COPY /app/wombeats-client/static /app/static
+COPY build/static /app/static
 WORKDIR /app
 RUN chmod +x /app/*
+EXPOSE 8080
 ENTRYPOINT ["./gunicorn_runner.sh"]
