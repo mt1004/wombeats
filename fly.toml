@@ -1,6 +1,6 @@
 # fly.toml file generated for bold-dream-7079 on 2022-10-02T12:41:37-04:00
 
-app = "bold-dream-7079"
+app = "spotify-bpm-viewer"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
