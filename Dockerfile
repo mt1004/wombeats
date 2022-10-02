@@ -8,8 +8,8 @@ WORKDIR /app/wombeats-client
 RUN npm install
 RUN npx browserslist@latest --update-db
 RUN npm run build
-RUN ls -ltr
-COPY static/. /app/static
+RUN ls -ltr build
+COPY build/static/. /app/static
 WORKDIR /app
 RUN chmod +x /app/*
 EXPOSE 8080
