@@ -5,9 +5,8 @@ from spotipy import Spotify
 
 from wombeats.api_models import SpotipyTrackItem, SpotipyPlaylist
 from wombeats.models import SearchQuery, SearchResult
-
-
-
+import logging
+logger = logging.getLogger(__name__)
 
 
 class SpotifyAPIAccess:
@@ -44,13 +43,13 @@ class SpotifyAPIAccess:
             return track_items
 
         filtered_artist_items = [track_item for track_item in track_items if
-                 (query.artist and query.artist in track_item.artists[0].name)]
+                 (query.artist and query.artist == track_item.artists[0].name)]
         final_track_items = self.validate_filtered_items(filtered_artist_items, track_items)
         filtered_album_items = [track_item for track_item in final_track_items if
-                 (query.album and query.album in track_item.album.name)]
+                 (query.album and query.album == track_item.album.name)]
         final_track_items = self.validate_filtered_items(filtered_album_items, final_track_items)
         filtered_track_items = [track_item for track_item in final_track_items if
-                 (query.track and query.track in track_item.name)]
+                 (query.track and query.track == track_item.name)]
         final_track_items = self.validate_filtered_items(filtered_track_items, final_track_items)
         filtered_year_items = [track_item for track_item in final_track_items if
                  (query.year and int(query.year) == track_item.album.release_date.year)]
@@ -67,6 +66,8 @@ class SpotifyAPIAccess:
         pre_filtered_track_items = self.pre_filter_tracks_by_search_query(track_items, query)
         for track_item in pre_filtered_track_items:
             features = self.client.audio_features(track_item.uri)
+            if not features or not features[0]:
+                continue
             bpm_decimal = Decimal(features[0]["tempo"])
             if query.from_bpm <= bpm_decimal <= query.to_bpm:
                 search_result = SearchResult(
@@ -82,8 +83,10 @@ class SpotifyAPIAccess:
         return search_results
 
     def get_current_playlists(self, offset: int = 0) -> List[SpotipyPlaylist]:
+        logger.info("Getting current user playlists")
         playlists = self.client.current_user_playlists(offset=offset)
         all_playlists = playlists["items"]
+        logger.info(f"Done getting current user playlists: size: {len(all_playlists)}")
         spotipy_playlists: List[SpotipyPlaylist] = []
         for item in all_playlists:
             spotipy_playlist = SpotipyPlaylist(**item)
@@ -96,7 +99,7 @@ class SpotifyAPIAccess:
         while offset < 200:
             all_playlists.extend(self.get_current_playlists(offset=offset))
             offset = offset + 49
-        return [playlist for playlist in all_playlists if name in playlist.name]
+        return [playlist for playlist in all_playlists if name == playlist.name]
 
     def _get_tracks_from_playlist(self, playlist_id:str) -> List[SpotipyTrackItem] :
         results = self.client.playlist(playlist_id, fields="tracks,next")
