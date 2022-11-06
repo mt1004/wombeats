@@ -67,6 +67,7 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
     def test_api_access_get_current_playlists(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
         playlists = api_access.get_current_playlists()
+        print(len(playlists))
         assert playlists
 
 
@@ -100,9 +101,10 @@ class SpotipyPlaylistApiTest(unittest.TestCase):
     def test_api_access_search_by_playlist(self):
         api_access = SpotifyAPIAccess.build(client=self.spotify)
         sq = SearchQuery(
-            genre="New Music Friday",
+            genre="MT June 2020",
             from_bpm=Decimal(90),
             to_bpm=Decimal(100)
+
         )
         search_results = api_access.search(sq)
         print(search_results)
